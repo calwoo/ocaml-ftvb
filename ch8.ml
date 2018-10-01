@@ -56,4 +56,24 @@ let rec unzip d =
     [] -> ([], [])
   | (k,v)::tl -> (k :: fst (unzip tl), v :: snd (unzip tl));;
 
+let rec member a l =
+  match l with
+    [] -> false
+  | x :: tl -> (a = x) || member a tl;;
+
+let rec dict_pairs_acc keys_acc l =
+  match l with
+    [] -> []
+  | (k,v)::tl -> if member k keys_acc
+                 then dict_pairs_acc keys_acc tl
+                 else (k,v) :: dict_pairs (k::keys_acc) tl;;
+
+let dict_pairs l = dict_pairs_acc [] l;;
+
+let rec union a b =
+  match b with
+    [] -> a
+  | (k,v)::tl -> if key_exists k a
+                 then union a tl
+                 else (k,v) :: union a tl;;
 
