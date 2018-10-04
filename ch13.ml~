@@ -1,0 +1,33 @@
+(* chpt 13 notes *)
+(* putting things into boxes *)
+
+(* this chapter is about mutable state *)
+(* OCaml provides things called references-- these are effectively boxes which
+ * we can store values in. we use the function ref :: \alpha -> \alpha ref *)
+let x = ref 0;;
+
+(* to extract the value from a ref we use ! *)
+let p = !x;;
+
+(* using := updates the reference to a new value *)
+x := 50;;
+
+(* function to swap values of references *)
+let swap a b =
+  let t = !a in
+  a := !b;
+  b := t
+;;
+
+(* this allows us to use imperative programming techniques in OCaml *)
+for x = 1 to 5 do print_int x; print_newline () done;;
+
+let smallest_pow2 x =
+  let t = ref 1 in
+  while !t < x do
+    t := !t * 2
+  done;
+  !t
+;;
+
+

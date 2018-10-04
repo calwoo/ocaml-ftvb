@@ -1,4 +1,3 @@
-
 (* chpt 12 examples *)
 (* I/O *)
 
@@ -76,64 +75,5 @@ let entry_of_channel ch =
   let number = input_line ch in
   let name = input_line ch in
   (int_of_string number, name)
-;;
-
-let rec dictionary_of_channel ch =
-  try
-    let e = entry_of_channel ch in
-    e :: dictionary_of_channel ch
-  with
-    End_of_file -> []
-;;
-
-let dictionary_of_file filename =
-  let ch = open_in filename in
-  let dict = dictionary_of_channel ch in
-  close_in ch;
-  dict
-;;
-
-(* chpt 12 exercises *)
-(* 1: function to print a list of integers to screen in same format as
- * OCaml -- ie square brackets and ;'s *)
-let rec print_list_ints_inner ls =
-  match ls with
-    [] -> ()
-  | [h] -> print_int h
-  | h::tl -> print_int h;
-             print_string "; ";
-             print_list_ints_inner tl
-;;
-
-let print_list_ints ls =
-  print_char '[';
-  print_list_ints_inner ls;
-  print_char ']'
-;;
-
-(* 2: function to read three integers from the user, return as a tuple *)
-let rec three_ints_to_tuple () =
-  try
-    let a = read_int () in
-    let b = read_int () in
-    let c = read_int () in
-    (a,b,c)
-  with
-    Failure "int_of_string" -> print_string "Not a valid integer sequence.";
-                               three_ints_to_tuple ()
-;;
-
-(* 5: function to count number of lines in a given file *)
-let rec count_lines_ch ch =
-  try
-    input_line ch;
-    1 + count_lines_ch ch
-  with
-    End_of_file -> 0
-;;
-
-let count_lines filename =
-  let ch = open_in filename in
-  count_lines_ch ch
 ;;
 
